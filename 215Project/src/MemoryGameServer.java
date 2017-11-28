@@ -1,6 +1,9 @@
-import javax.swing.*;
-import java.awt.*;
-import java.io.DataInput;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,49 +11,56 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 
-public class MemoryGameServer extends JFrame {
 
-    public static void main(String[] args) {
-        MemoryGameServer serverFrame = new MemoryGameServer();
-    }
+public class MemoryGameServer extends Application {
 
-    public MemoryGameServer() {
+    public void start(Stage t) {
+        TextArea logArea = new TextArea();
+        ScrollPane scrollPane = new ScrollPane(logArea);
 
-        JTextArea logArea = new JTextArea();
-        JScrollPane scrollPane = new JScrollPane(logArea);
-        add(scrollPane, BorderLayout.CENTER);
-
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(600,300);
-        setTitle("Memory Game Server");
-        setVisible(true);
+        Scene serverScene = new Scene(scrollPane, 600, 300);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+        t.setTitle("Memory Server");
+        t.setScene(serverScene);
+        t.show();
 
         try {
             ServerSocket serverSocket = new ServerSocket(8000);
-            logArea.append(new Date() + ": Server started at socket 8000\n");
+            logArea.appendText(new Date() + ": Server started at socket 8000\n");
 
             int sessionNum = 1;
 
             while (true) {
-                logArea.append(new Date() + ": Waiting for player to join game #" + sessionNum + "\n");
 
-                Socket player = serverSocket.accept();
+                try {
+                    logArea.appendText(new Date() + ": Waiting for player to join game #" + sessionNum + "\n");
+                    serverSocket.setSoTimeout(1);
+                    Socket player = serverSocket.accept();
 
-                logArea.append(new Date() + ": Player One has joined game #" + sessionNum + "\n");
-                logArea.append("Player's IP Address is: " + player.getInetAddress().getHostAddress() + "\n");
+                    logArea.appendText(new Date() + ": Player One has joined game #" + sessionNum + "\n");
+                    logArea.appendText("Player's IP Address is: " + player.getInetAddress().getHostAddress() + "\n");
 
-                new DataOutputStream(player.getOutputStream()).writeInt(1);
+                    new DataOutputStream(player.getOutputStream()).writeInt(1);
 
-                logArea.append(new Date() + ": Starting a thread for game #" + sessionNum++ + "\n");
+                    logArea.appendText(new Date() + ": Starting a thread for game #" + sessionNum++ + "\n");
 
-                HandleGameTask task = new HandleGameTask(player);
+                    HandleGameTask task = new HandleGameTask(player);
 
-                new Thread(task).start();
+                    new Thread(task).start();
+                }
+                catch (IOException ex) {
+                    //Do something to socket so it doesn't freeze program?
+                }
             }
         }
         catch (IOException exc) {
             System.err.println(exc.toString());
         }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
 

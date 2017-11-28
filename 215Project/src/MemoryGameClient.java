@@ -1,116 +1,120 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import MemoryGame.HardGame;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class MemoryGameClient extends JFrame {
+public class MemoryGameClient extends Application {
 
     private DataOutputStream toServer;
     private DataInputStream fromServer;
-    private ButtonGroup difficulties;
+    private Label selectionLabel = new Label("Please select a difficulty");
+    private Label singlePlayer = new Label("Single Player");
+    private Label multiPlayer = new Label("Multi-Player");
+    private ToggleGroup difficultyRadios = new ToggleGroup();
+    private RadioButton singleEasy = new RadioButton("Easy");
+    private RadioButton singleMedium = new RadioButton("Medium");
+    private RadioButton singleHard = new RadioButton("Hard");
+    private RadioButton multEasy = new RadioButton("Easy");
+    private RadioButton multMedium = new RadioButton("Medium");
+    private RadioButton multHard = new RadioButton("Hard");
+    private Button startGame = new Button("Start Game");
 
-    public static void main(String[] args) {
-        new MemoryGameClient();
-    }
+    public void start(Stage t) {
 
-    public MemoryGameClient() {
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
 
-        JPanel menuPanel = new JPanel(new BorderLayout());
-        JPanel singleSelection = new JPanel();
-        JPanel multiSelection = new JPanel();
-        JPanel difficultySelection = new JPanel();
-        JLabel selectionLabel = new JLabel("Please select a difficulty");
-        JLabel singlePlayer = new JLabel("Single Player");
-        JLabel multiPlayer = new JLabel("Multi-Player");
-        JRadioButton singleEasy = new JRadioButton("Easy");
-        JRadioButton singleMedium = new JRadioButton("Medium");
-        JRadioButton singleHard = new JRadioButton("Hard");
-        JRadioButton multEasy = new JRadioButton("Easy");
-        JRadioButton multMedium = new JRadioButton("Medium");
-        JRadioButton multHard = new JRadioButton("Hard");
-        JButton startGame = new JButton("Start Game");
+        singleEasy.setId("singleEasy");
+        singleMedium.setId("singleMedium");
+        singleHard.setId("singleHard");
+        multEasy.setId("multEasy");
+        multMedium.setId("multMedium");
+        multHard.setId("multHard");
 
-        startGame.addActionListener(new GameListener());
-
-        difficulties = new ButtonGroup();
-        difficulties.add(singleEasy);
-        difficulties.add(singleMedium);
-        difficulties.add(singleHard);
-        difficulties.add(multEasy);
-        difficulties.add(multMedium);
-        difficulties.add(multHard);
+        singleEasy.setToggleGroup(difficultyRadios);
+        singleMedium.setToggleGroup(difficultyRadios);
+        singleHard.setToggleGroup(difficultyRadios);
+        multEasy.setToggleGroup(difficultyRadios);
+        multMedium.setToggleGroup(difficultyRadios);
+        multHard.setToggleGroup(difficultyRadios);
         singleEasy.setSelected(true);
 
-        singleEasy.setActionCommand("singleEasy");
-        singleMedium.setActionCommand("singleMedium");
-        singleHard.setActionCommand("singleHard");
-        multEasy.setActionCommand("multEasy");
-        multMedium.setActionCommand("multMedium");
-        multHard.setActionCommand("multHard");
+        gridPane.add(selectionLabel, 0, 0);
+        GridPane.setColumnSpan(selectionLabel, GridPane.REMAINING);
+        gridPane.add(singlePlayer, 0, 1);
+        GridPane.setColumnSpan(singlePlayer, GridPane.REMAINING);
+        gridPane.add(singleEasy, 0, 2);
+        gridPane.add(singleMedium, 1, 2);
+        gridPane.add(singleHard, 2, 2);
+        gridPane.add(multiPlayer, 0, 3);
+        GridPane.setColumnSpan(multiPlayer, GridPane.REMAINING);
+        gridPane.add(multEasy, 0, 4);
+        gridPane.add(multMedium, 1, 4);
+        gridPane.add(multHard, 2, 4);
+        gridPane.add(startGame, 1, 5);
 
-        singleSelection.setLayout(new BoxLayout(singleSelection, BoxLayout.Y_AXIS));
-        singleSelection.add(singlePlayer);
-        singleSelection.add(singleEasy);
-        singleSelection.add(singleMedium);
-        singleSelection.add(singleHard);
+        gridPane.setAlignment(Pos.CENTER);
+        startGame.setOnAction(this::submit);
 
-        multiSelection.setLayout(new BoxLayout(multiSelection, BoxLayout.Y_AXIS));
-        multiSelection.add(multiPlayer);
-        multiSelection.add(multEasy);
-        multiSelection.add(multMedium);
-        multiSelection.add(multHard);
-
-        difficultySelection.add(singleSelection);
-        difficultySelection.add(multiSelection);
-
-        selectionLabel.setHorizontalAlignment(JLabel.CENTER);
-        menuPanel.add(selectionLabel, BorderLayout.NORTH);
-        menuPanel.add(difficultySelection, BorderLayout.CENTER);
-        menuPanel.add(startGame, BorderLayout.SOUTH);
-
-        add(menuPanel);
-        setTitle("Memory Game Client");
-        setSize(500, 200);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
+        Scene difficultyScene = new Scene(gridPane, 300, 200);
+        t.setTitle("Difficulty Selection");
+        t.setScene(difficultyScene);
+        t.show();
 
         try {
             Socket socket = new Socket("localhost", 8000);
 
             toServer = new DataOutputStream(socket.getOutputStream());
             fromServer = new DataInputStream(socket.getInputStream());
-
-
         }
         catch (IOException exc) {
             System.err.println(exc.toString());
         }
+
     }
 
-    private class GameListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            String difficulty = difficulties.getSelection().getActionCommand();
+    private void submit(ActionEvent e) {
 
-            switch (difficulty) {
-                case "singleEasy":
-                    break;
-                case "singleMedium":
-                    break;
-                case "singleHard":
-                    break;
-                case "multEasy":
-                    break;
-                case "multMedium":
-                    break;
-                case "multHard":
-                    break;
-            }
+        RadioButton selected = (RadioButton) difficultyRadios.getSelectedToggle();
+        String difficulty = selected.getId();
+
+        //Run correct game version
+
+        switch (difficulty) {
+            case "singleEasy":
+                break;
+            case "singleMedium":
+                break;
+            case "singleHard":
+                break;
+            case "multEasy":
+                break;
+            case "multMedium":
+                break;
+            case "multHard":
+                break;
+            default:
+                break;
         }
+
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 }
+
+
