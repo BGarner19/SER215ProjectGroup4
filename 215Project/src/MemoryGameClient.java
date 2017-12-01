@@ -1,11 +1,14 @@
-import MemoryGame.HardGame;
+package MemoryGame;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -66,49 +69,152 @@ public class MemoryGameClient extends Application {
         gridPane.add(startGame, 1, 5);
 
         gridPane.setAlignment(Pos.CENTER);
-        startGame.setOnAction(this::submit);
+        startGame.setOnAction(e -> submit(e));
 
         Scene difficultyScene = new Scene(gridPane, 300, 200);
         t.setTitle("Difficulty Selection");
         t.setScene(difficultyScene);
         t.show();
-
-        try {
-            Socket socket = new Socket("localhost", 8000);
-
-            toServer = new DataOutputStream(socket.getOutputStream());
-            fromServer = new DataInputStream(socket.getInputStream());
-        }
-        catch (IOException exc) {
-            System.err.println(exc.toString());
-        }
-
     }
 
     private void submit(ActionEvent e) {
 
-        RadioButton selected = (RadioButton) difficultyRadios.getSelectedToggle();
-        String difficulty = selected.getId();
+        Toggle selected = difficultyRadios.getSelectedToggle();
+        String difficulty = ((RadioButton) selected).getId();
+        Stage gameStage = new Stage();
 
         //Run correct game version
 
-        switch (difficulty) {
-            case "singleEasy":
-                break;
-            case "singleMedium":
-                break;
-            case "singleHard":
-                break;
-            case "multEasy":
-                break;
-            case "multMedium":
-                break;
-            case "multHard":
-                break;
-            default:
-                break;
+        if(difficulty.equals("singleEasy"))
+        {
+        	EasyGame easy = new EasyGame();
+            try
+			{
+				easy.start(gameStage);
+			}
+			catch (InterruptedException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        }
+        else if(difficulty.equals("singleMedium"))
+        {
+            	MediumGame medium = new MediumGame();
+            	try
+				{
+					medium.start(gameStage);
+				}
+				catch (InterruptedException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+        }
+        else if(difficulty.equals("singleHard"))
+        {
+            	HardGame hard = new HardGame();
+            	try
+				{
+					hard.start(gameStage);
+				}
+				catch (InterruptedException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+        }
+        else if(difficulty.equals("multEasy"))
+        {
+        	MultiEasyGame easy = new MultiEasyGame();
+            try
+			{
+				easy.start(gameStage);
+				easy.submit.setOnAction(ev -> getEasyScore(ev, easy));
+			}
+			catch (InterruptedException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        }
+        else if(difficulty.equals("multMedium"))
+        {
+        	MultiMediumGame medium = new MultiMediumGame();
+        	try
+			{
+				medium.start(gameStage);
+				medium.submit.setOnAction(ev -> getMediumScore(ev, medium));
+			}
+			catch (InterruptedException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        }
+        else if(difficulty.equals("multHard"))
+        {
+        	MultiHardGame hard = new MultiHardGame();
+        	try
+			{
+				hard.start(gameStage);
+				hard.submit.setOnAction(ev -> getHardScore(ev, hard));
+			}
+			catch (InterruptedException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         }
 
+    }
+    
+    private void getEasyScore(ActionEvent e,MultiEasyGame easy)
+    {
+    	try {
+            Socket socket = new Socket("localhost", 8000);
+
+            toServer = new DataOutputStream(socket.getOutputStream());
+            fromServer = new DataInputStream(socket.getInputStream());
+            
+            toServer.writeDouble(easy.score);
+            double opponScore = fromServer.readDouble();
+        }
+        catch (IOException exc) {
+            System.err.println(exc.toString());
+        }
+    }
+    
+    private void getMediumScore(ActionEvent e,MultiMediumGame medium)
+    {
+    	try {
+            Socket socket = new Socket("localhost", 8000);
+
+            toServer = new DataOutputStream(socket.getOutputStream());
+            fromServer = new DataInputStream(socket.getInputStream());
+
+            toServer.writeDouble(medium.score);
+            double opponScore = fromServer.readDouble();
+        }
+        catch (IOException exc) {
+            System.err.println(exc.toString());
+        }
+    }
+    
+    private void getHardScore(ActionEvent e,MultiHardGame hard)
+    {
+    	try {
+            Socket socket = new Socket("localhost", 8000);
+
+            toServer = new DataOutputStream(socket.getOutputStream());
+            fromServer = new DataInputStream(socket.getInputStream());
+
+            toServer.writeDouble(hard.score);
+            double opponScore = fromServer.readDouble();
+        }
+        catch (IOException exc) {
+            System.err.println(exc.toString());
+        }
     }
 
     public static void main(String[] args) {

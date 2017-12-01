@@ -21,18 +21,18 @@ public class MediumGame extends Application
 	private RandImage target = new RandImage();
 	private ImageView itarget = new ImageView(target.getImage());
 	private Image cover = new Image(getClass().getResourceAsStream("Question.jpg"), 50, 50, false, false);
-	private Button submit = new Button("Submit");
+	public Button submit = new Button("Submit");
 	private Button gameSet = new Button("Set Game");
 	private Button replay = new Button("Replay");
 	private Button exit = new Button("Exit");
 	private Label tally = new Label("");
-	private double score = 0;
+	public double score = 0;
 	private Label lscore = new Label("Score: " + score);
 	private TextField gameNum = new TextField();
 	private Button set = new Button("Set");
 	private Label lnum = new Label("Number of Games: ");
 	private int numOfGames = 10;
-	private int totalGames = numOfGames;
+	private int totalGames = 0;
 	
 	public void start(Stage primaryStage) throws InterruptedException
 	{
@@ -66,7 +66,8 @@ public class MediumGame extends Application
 				count++;
 			}
 		}
-
+		submit.setDisable(true);
+		
 		gridPane.setAlignment(Pos.CENTER);
 		submit.setAlignment(Pos.CENTER);
 		gameSet.setAlignment(Pos.CENTER);
@@ -82,7 +83,7 @@ public class MediumGame extends Application
 		submit.setOnAction(e -> submit(e));
 		gameSet.setOnAction(e -> gameSet());
 		
-		Scene scene = new Scene(gridPane, 800, 600);
+		Scene scene = new Scene(gridPane, 500, 400);
 		primaryStage.setTitle("Memory Game");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -96,6 +97,7 @@ public class MediumGame extends Application
 	private void submit(ActionEvent e)
 	{
 		numOfGames--;
+		totalGames++;
 		double addit = 1000;
 		int selected = 0;
 		int valid = 0;
@@ -178,6 +180,7 @@ public class MediumGame extends Application
 				button[i].setGraphic(new ImageView(image[i].getImage()));
 				button[i].setDisable(true);
 			}
+			submit.setDisable(true);
 
 			Timeline timeline = new Timeline(new KeyFrame(
 					Duration.millis(4000),
@@ -216,7 +219,7 @@ public class MediumGame extends Application
 	{
 		final Stage newPrim = new Stage();
 		numOfGames = 10;
-		totalGames = numOfGames;
+		totalGames = 0;
 		score = 0;
 		lscore.setText("Score: " + score);
 		target.reRandomize();
@@ -245,6 +248,8 @@ public class MediumGame extends Application
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
 		}
+		submit.setDisable(true);
+		
 		int count = 0;
 		for(int i = 2; i < 6; i++)
 		{
@@ -319,13 +324,35 @@ public class MediumGame extends Application
 		else if(Integer.parseInt(gameNum.getText()) > 0)
 		{
 			numOfGames = Integer.parseInt(gameNum.getText());
-			totalGames = numOfGames;
 			((Node)(e.getSource())).getScene().getWindow().hide();
+			boardReset();
 		}
 		else
 		{
 			gameNum.setText("No Valid Value.");
 		}
+	}
+	
+	private void boardReset()
+	{
+		target.reRandomize();
+		itarget.setImage(target.getImage());
+		
+		for(int i = 0; i < 16; i++)
+		{
+			image[i].reRandomize();
+		}
+		for(int i = 0; i < 16; i++)
+		{
+			button[i].setGraphic(new ImageView(image[i].getImage()));
+			button[i].setDisable(true);
+		}
+		submit.setDisable(true);
+		
+		Timeline timeline = new Timeline(new KeyFrame(
+		        Duration.millis(4000),
+		        ae -> cover()));
+		timeline.play();
 	}
 	
 	private void cover()
@@ -335,6 +362,7 @@ public class MediumGame extends Application
 			button[i].setGraphic(new ImageView(cover));
 			button[i].setDisable(false);
 		}
+		submit.setDisable(false);
 	}
 
 	public static void main(String[] args)
