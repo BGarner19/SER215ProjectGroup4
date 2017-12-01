@@ -22,7 +22,6 @@ public class MultiHardGame extends Application
 	private ImageView itarget = new ImageView(target.getImage());
 	private Image cover = new Image(getClass().getResourceAsStream("Question.jpg"), 50, 50, false, false);
 	public Button submit = new Button("Submit");
-	private Button gameSet = new Button("Set Game");
 	private Button replay = new Button("Replay");
 	private Button exit = new Button("Exit");
 	private Label tally = new Label("");
@@ -43,7 +42,6 @@ public class MultiHardGame extends Application
 		gridPane.add(new Label("Image: "), 4, 0);
 		gridPane.add(itarget, 4, 1);
 		gridPane.add(submit, 4, 7);
-		gridPane.add(gameSet, 0, 7);
 		gridPane.addRow(8,tally);
 		GridPane.setColumnSpan(tally, GridPane.REMAINING);
 		
@@ -70,18 +68,15 @@ public class MultiHardGame extends Application
 
 		gridPane.setAlignment(Pos.CENTER);
 		submit.setAlignment(Pos.CENTER);
-		gameSet.setAlignment(Pos.CENTER);
 		tally.setAlignment(Pos.CENTER);
 		for(int i = 0; i < 25; i++)
 		{
 			button[i].setAlignment(Pos.BOTTOM_RIGHT);
 		}
 		GridPane.setHalignment(submit, HPos.RIGHT);
-		GridPane.setHalignment(gameSet, HPos.LEFT);
 		GridPane.setHalignment(tally, HPos.CENTER);
 		
 		submit.setOnAction(e -> submit(e));
-		gameSet.setOnAction(e -> gameSet());
 		
 		Scene scene = new Scene(gridPane, 500, 400);
 		primaryStage.setTitle("Memory Game");
@@ -234,7 +229,6 @@ public class MultiHardGame extends Application
 		gridPane.add(new Label("Image: "), 4, 0);
 		gridPane.add(itarget, 4, 1);
 		gridPane.add(submit, 4, 7);
-		gridPane.add(gameSet, 0, 7);
 		gridPane.addRow(8,tally);
 		GridPane.setColumnSpan(tally, GridPane.REMAINING);
 		
@@ -261,18 +255,15 @@ public class MultiHardGame extends Application
 
 		gridPane.setAlignment(Pos.CENTER);
 		submit.setAlignment(Pos.CENTER);
-		gameSet.setAlignment(Pos.CENTER);
 		tally.setAlignment(Pos.CENTER);
 		for(int i = 0; i < 25; i++)
 		{
 			button[i].setAlignment(Pos.BOTTOM_RIGHT);
 		}
 		GridPane.setHalignment(submit, HPos.RIGHT);
-		GridPane.setHalignment(gameSet, HPos.LEFT);
 		GridPane.setHalignment(tally, HPos.CENTER);
 		
 		submit.setOnAction(event -> submit(event));
-		gameSet.setOnAction(event -> gameSet());
 		
 		Scene scene = new Scene(gridPane, 800, 600);
 		newPrim.setTitle("Memory Game");
