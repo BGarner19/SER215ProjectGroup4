@@ -175,7 +175,7 @@ public class MemoryGameClient extends Application {
 
     }
     
-    private void getEasyScore(ActionEvent e,MultiEasyGame easy)
+    private void getEasyScore(ActionEvent e, MultiEasyGame easy)
     {
     	try {
             Socket socket = new Socket("localhost", 8000);
@@ -184,7 +184,19 @@ public class MemoryGameClient extends Application {
             fromServer = new DataInputStream(socket.getInputStream());
             
             toServer.writeDouble(easy.score);
-            double opponScore = fromServer.readDouble();
+            
+            int status = fromServer.readInt();
+            
+            switch (status) {
+	            case 0:
+	            	easy.message = "You lost!";
+	            case 1:
+	            	easy.message = "You won!";
+	            case 2: 
+	            	easy.message = "You tied!";
+            }
+            
+            
         }
         catch (IOException exc) {
             System.err.println(exc.toString());

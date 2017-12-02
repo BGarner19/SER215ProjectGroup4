@@ -14,10 +14,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.image.*;
 
-public class MultiHardGame extends Application
+public class EasyGame extends Application
 {	
-	private RadioButton[] button= new RadioButton[25];
-	private RandImage[] image = new RandImage[25];
+	private RadioButton[] button= new RadioButton[9];
+	private RandImage[] image = new RandImage[9];
 	private RandImage target = new RandImage();
 	private ImageView itarget = new ImageView(target.getImage());
 	private Image cover = new Image(getClass().getResourceAsStream("Question.jpg"), 50, 50, false, false);
@@ -40,27 +40,27 @@ public class MultiHardGame extends Application
 		gridPane.setHgap(5);
 		gridPane.setVgap(5);
 		gridPane.add(lscore, 0, 0);
-		gridPane.add(new Label("Image: "), 4, 0);
-		gridPane.add(itarget, 4, 1);
-		gridPane.add(submit, 4, 7);
-		gridPane.add(gameSet, 0, 7);
-		gridPane.addRow(8,tally);
+		gridPane.add(new Label("Image: "), 2, 0);
+		gridPane.add(itarget, 2, 1);
+		gridPane.add(submit, 2, 5);
+		gridPane.add(gameSet, 0, 5);
+		gridPane.addRow(6,tally);
 		GridPane.setColumnSpan(tally, GridPane.REMAINING);
 		
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			image[i] = new RandImage();
 		}
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			button[i] = new RadioButton();
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
 		}
 		int count = 0;
-		for(int i = 2; i < 7; i++)
+		for(int i = 2; i < 5; i++)
 		{
-			for(int j = 0; j < 5; j++)
+			for(int j = 0; j < 3; j++)
 			{
 				gridPane.add(button[count], j, i);
 				count++;
@@ -72,7 +72,7 @@ public class MultiHardGame extends Application
 		submit.setAlignment(Pos.CENTER);
 		gameSet.setAlignment(Pos.CENTER);
 		tally.setAlignment(Pos.CENTER);
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			button[i].setAlignment(Pos.BOTTOM_RIGHT);
 		}
@@ -89,7 +89,7 @@ public class MultiHardGame extends Application
 		primaryStage.show();
 		
 		Timeline timeline = new Timeline(new KeyFrame(
-		        Duration.millis(5000),
+		        Duration.millis(3000),
 		        ae -> cover()));
 		timeline.play();
 	}
@@ -103,7 +103,7 @@ public class MultiHardGame extends Application
 		int valid = 0;
 		int correct = 0;
 		
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			if(target.getNum() == image[i].getNum())
 			{
@@ -111,7 +111,7 @@ public class MultiHardGame extends Application
 			}
 		}
 		
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			if(button[i].isSelected())
 			{
@@ -121,7 +121,7 @@ public class MultiHardGame extends Application
 		
 		if(valid != 0)
 		{
-			for(int i = 0; i < 25; i++)
+			for(int i = 0; i < 9; i++)
 			{
 				if(button[i].isSelected() && target.getNum() == image[i].getNum())
 				{
@@ -165,17 +165,17 @@ public class MultiHardGame extends Application
 			target.reRandomize();
 			itarget.setImage(target.getImage());
 
-			for(int i = 0; i < 25; i++)
+			for(int i = 0; i < 9; i++)
 			{
 				button[i].setSelected(false);
 			}
 
-			for(int i = 0; i < 25; i++)
+			for(int i = 0; i < 9; i++)
 			{
 				image[i].reRandomize();
 			}
 
-			for(int i = 0; i < 25; i++)
+			for(int i = 0; i < 9; i++)
 			{
 				button[i].setGraphic(new ImageView(image[i].getImage()));
 				button[i].setDisable(true);
@@ -183,7 +183,7 @@ public class MultiHardGame extends Application
 			submit.setDisable(true);
 
 			Timeline timeline = new Timeline(new KeyFrame(
-					Duration.millis(5000),
+					Duration.millis(3000),
 					ae -> cover()));
 			timeline.play();
 		}
@@ -231,27 +231,27 @@ public class MultiHardGame extends Application
 		gridPane.setHgap(5);
 		gridPane.setVgap(5);
 		gridPane.add(lscore, 0, 0);
-		gridPane.add(new Label("Image: "), 4, 0);
-		gridPane.add(itarget, 4, 1);
-		gridPane.add(submit, 4, 7);
-		gridPane.add(gameSet, 0, 7);
-		gridPane.addRow(8,tally);
+		gridPane.add(new Label("Image: "), 2, 0);
+		gridPane.add(itarget, 2, 1);
+		gridPane.add(submit, 2, 5);
+		gridPane.add(gameSet, 0, 5);
+		gridPane.addRow(6,tally);
 		GridPane.setColumnSpan(tally, GridPane.REMAINING);
 		
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			image[i] = new RandImage();
 		}
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			button[i] = new RadioButton();
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
 		}
 		int count = 0;
-		for(int i = 2; i < 7; i++)
+		for(int i = 2; i < 5; i++)
 		{
-			for(int j = 0; j < 5; j++)
+			for(int j = 0; j < 3; j++)
 			{
 				gridPane.add(button[count], j, i);
 				count++;
@@ -263,7 +263,7 @@ public class MultiHardGame extends Application
 		submit.setAlignment(Pos.CENTER);
 		gameSet.setAlignment(Pos.CENTER);
 		tally.setAlignment(Pos.CENTER);
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			button[i].setAlignment(Pos.BOTTOM_RIGHT);
 		}
@@ -280,7 +280,7 @@ public class MultiHardGame extends Application
 		newPrim.show();
 		
 		Timeline timeline = new Timeline(new KeyFrame(
-		        Duration.millis(5000),
+		        Duration.millis(3000),
 		        ae -> cover()));
 		timeline.play();
 	}
@@ -337,11 +337,11 @@ public class MultiHardGame extends Application
 		target.reRandomize();
 		itarget.setImage(target.getImage());
 		
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			image[i].reRandomize();
 		}
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
@@ -349,14 +349,14 @@ public class MultiHardGame extends Application
 		submit.setDisable(true);
 		
 		Timeline timeline = new Timeline(new KeyFrame(
-		        Duration.millis(4000),
+		        Duration.millis(3000),
 		        ae -> cover()));
 		timeline.play();
 	}
 	
 	private void cover()
 	{
-		for(int i = 0; i < 25; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			button[i].setGraphic(new ImageView(cover));
 			button[i].setDisable(false);

@@ -14,10 +14,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.image.*;
 
-public class MultiMediumGame extends Application
+public class HardGame extends Application
 {	
-	private RadioButton[] button= new RadioButton[16];
-	private RandImage[] image = new RandImage[16];
+	private RadioButton[] button= new RadioButton[25];
+	private RandImage[] image = new RandImage[25];
 	private RandImage target = new RandImage();
 	private ImageView itarget = new ImageView(target.getImage());
 	private Image cover = new Image(getClass().getResourceAsStream("Question.jpg"), 50, 50, false, false);
@@ -40,39 +40,39 @@ public class MultiMediumGame extends Application
 		gridPane.setHgap(5);
 		gridPane.setVgap(5);
 		gridPane.add(lscore, 0, 0);
-		gridPane.add(new Label("Image: "), 3, 0);
-		gridPane.add(itarget, 3, 1);
-		gridPane.add(submit, 3, 6);
-		gridPane.add(gameSet, 0, 6);
-		gridPane.addRow(7,tally);
+		gridPane.add(new Label("Image: "), 4, 0);
+		gridPane.add(itarget, 4, 1);
+		gridPane.add(submit, 4, 7);
+		gridPane.add(gameSet, 0, 7);
+		gridPane.addRow(8,tally);
 		GridPane.setColumnSpan(tally, GridPane.REMAINING);
 		
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			image[i] = new RandImage();
 		}
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			button[i] = new RadioButton();
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
 		}
 		int count = 0;
-		for(int i = 2; i < 6; i++)
+		for(int i = 2; i < 7; i++)
 		{
-			for(int j = 0; j < 4; j++)
+			for(int j = 0; j < 5; j++)
 			{
 				gridPane.add(button[count], j, i);
 				count++;
 			}
 		}
 		submit.setDisable(true);
-		
+
 		gridPane.setAlignment(Pos.CENTER);
 		submit.setAlignment(Pos.CENTER);
 		gameSet.setAlignment(Pos.CENTER);
 		tally.setAlignment(Pos.CENTER);
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			button[i].setAlignment(Pos.BOTTOM_RIGHT);
 		}
@@ -83,13 +83,13 @@ public class MultiMediumGame extends Application
 		submit.setOnAction(e -> submit(e));
 		gameSet.setOnAction(e -> gameSet());
 		
-		Scene scene = new Scene(gridPane, 500, 400);
+		Scene scene = new Scene(gridPane, 800, 600);
 		primaryStage.setTitle("Memory Game");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
 		Timeline timeline = new Timeline(new KeyFrame(
-		        Duration.millis(4000),
+		        Duration.millis(5000),
 		        ae -> cover()));
 		timeline.play();
 	}
@@ -103,7 +103,7 @@ public class MultiMediumGame extends Application
 		int valid = 0;
 		int correct = 0;
 		
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			if(target.getNum() == image[i].getNum())
 			{
@@ -111,7 +111,7 @@ public class MultiMediumGame extends Application
 			}
 		}
 		
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			if(button[i].isSelected())
 			{
@@ -121,7 +121,7 @@ public class MultiMediumGame extends Application
 		
 		if(valid != 0)
 		{
-			for(int i = 0; i < 16; i++)
+			for(int i = 0; i < 25; i++)
 			{
 				if(button[i].isSelected() && target.getNum() == image[i].getNum())
 				{
@@ -165,17 +165,17 @@ public class MultiMediumGame extends Application
 			target.reRandomize();
 			itarget.setImage(target.getImage());
 
-			for(int i = 0; i < 16; i++)
+			for(int i = 0; i < 25; i++)
 			{
 				button[i].setSelected(false);
 			}
 
-			for(int i = 0; i < 16; i++)
+			for(int i = 0; i < 25; i++)
 			{
 				image[i].reRandomize();
 			}
 
-			for(int i = 0; i < 16; i++)
+			for(int i = 0; i < 25; i++)
 			{
 				button[i].setGraphic(new ImageView(image[i].getImage()));
 				button[i].setDisable(true);
@@ -183,7 +183,7 @@ public class MultiMediumGame extends Application
 			submit.setDisable(true);
 
 			Timeline timeline = new Timeline(new KeyFrame(
-					Duration.millis(4000),
+					Duration.millis(5000),
 					ae -> cover()));
 			timeline.play();
 		}
@@ -231,40 +231,39 @@ public class MultiMediumGame extends Application
 		gridPane.setHgap(5);
 		gridPane.setVgap(5);
 		gridPane.add(lscore, 0, 0);
-		gridPane.add(new Label("Image: "), 3, 0);
-		gridPane.add(itarget, 3, 1);
-		gridPane.add(submit, 3, 6);
-		gridPane.add(gameSet, 0, 6);
-		gridPane.addRow(7,tally);
+		gridPane.add(new Label("Image: "), 4, 0);
+		gridPane.add(itarget, 4, 1);
+		gridPane.add(submit, 4, 7);
+		gridPane.add(gameSet, 0, 7);
+		gridPane.addRow(8,tally);
 		GridPane.setColumnSpan(tally, GridPane.REMAINING);
 		
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			image[i] = new RandImage();
 		}
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			button[i] = new RadioButton();
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
 		}
-		submit.setDisable(true);
-		
 		int count = 0;
-		for(int i = 2; i < 6; i++)
+		for(int i = 2; i < 7; i++)
 		{
-			for(int j = 0; j < 4; j++)
+			for(int j = 0; j < 5; j++)
 			{
 				gridPane.add(button[count], j, i);
 				count++;
 			}
 		}
+		submit.setDisable(true);
 
 		gridPane.setAlignment(Pos.CENTER);
 		submit.setAlignment(Pos.CENTER);
 		gameSet.setAlignment(Pos.CENTER);
 		tally.setAlignment(Pos.CENTER);
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			button[i].setAlignment(Pos.BOTTOM_RIGHT);
 		}
@@ -275,13 +274,13 @@ public class MultiMediumGame extends Application
 		submit.setOnAction(event -> submit(event));
 		gameSet.setOnAction(event -> gameSet());
 		
-		Scene scene = new Scene(gridPane, 800, 600);
+		Scene scene = new Scene(gridPane, 500, 400);
 		newPrim.setTitle("Memory Game");
 		newPrim.setScene(scene);
 		newPrim.show();
 		
 		Timeline timeline = new Timeline(new KeyFrame(
-		        Duration.millis(4000),
+		        Duration.millis(5000),
 		        ae -> cover()));
 		timeline.play();
 	}
@@ -338,11 +337,11 @@ public class MultiMediumGame extends Application
 		target.reRandomize();
 		itarget.setImage(target.getImage());
 		
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			image[i].reRandomize();
 		}
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
@@ -357,7 +356,7 @@ public class MultiMediumGame extends Application
 	
 	private void cover()
 	{
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 25; i++)
 		{
 			button[i].setGraphic(new ImageView(cover));
 			button[i].setDisable(false);

@@ -14,10 +14,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.image.*;
 
-public class MultiEasyGame extends Application
+public class MediumGame extends Application
 {	
-	private RadioButton[] button= new RadioButton[9];
-	private RandImage[] image = new RandImage[9];
+	private RadioButton[] button= new RadioButton[16];
+	private RandImage[] image = new RandImage[16];
 	private RandImage target = new RandImage();
 	private ImageView itarget = new ImageView(target.getImage());
 	private Image cover = new Image(getClass().getResourceAsStream("Question.jpg"), 50, 50, false, false);
@@ -40,39 +40,39 @@ public class MultiEasyGame extends Application
 		gridPane.setHgap(5);
 		gridPane.setVgap(5);
 		gridPane.add(lscore, 0, 0);
-		gridPane.add(new Label("Image: "), 2, 0);
-		gridPane.add(itarget, 2, 1);
-		gridPane.add(submit, 2, 5);
-		gridPane.add(gameSet, 0, 5);
-		gridPane.addRow(6,tally);
+		gridPane.add(new Label("Image: "), 3, 0);
+		gridPane.add(itarget, 3, 1);
+		gridPane.add(submit, 3, 6);
+		gridPane.add(gameSet, 0, 6);
+		gridPane.addRow(7,tally);
 		GridPane.setColumnSpan(tally, GridPane.REMAINING);
 		
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			image[i] = new RandImage();
 		}
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			button[i] = new RadioButton();
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
 		}
 		int count = 0;
-		for(int i = 2; i < 5; i++)
+		for(int i = 2; i < 6; i++)
 		{
-			for(int j = 0; j < 3; j++)
+			for(int j = 0; j < 4; j++)
 			{
 				gridPane.add(button[count], j, i);
 				count++;
 			}
 		}
 		submit.setDisable(true);
-
+		
 		gridPane.setAlignment(Pos.CENTER);
 		submit.setAlignment(Pos.CENTER);
 		gameSet.setAlignment(Pos.CENTER);
 		tally.setAlignment(Pos.CENTER);
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			button[i].setAlignment(Pos.BOTTOM_RIGHT);
 		}
@@ -89,7 +89,7 @@ public class MultiEasyGame extends Application
 		primaryStage.show();
 		
 		Timeline timeline = new Timeline(new KeyFrame(
-		        Duration.millis(3000),
+		        Duration.millis(4000),
 		        ae -> cover()));
 		timeline.play();
 	}
@@ -103,7 +103,7 @@ public class MultiEasyGame extends Application
 		int valid = 0;
 		int correct = 0;
 		
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			if(target.getNum() == image[i].getNum())
 			{
@@ -111,7 +111,7 @@ public class MultiEasyGame extends Application
 			}
 		}
 		
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			if(button[i].isSelected())
 			{
@@ -121,7 +121,7 @@ public class MultiEasyGame extends Application
 		
 		if(valid != 0)
 		{
-			for(int i = 0; i < 9; i++)
+			for(int i = 0; i < 16; i++)
 			{
 				if(button[i].isSelected() && target.getNum() == image[i].getNum())
 				{
@@ -165,17 +165,17 @@ public class MultiEasyGame extends Application
 			target.reRandomize();
 			itarget.setImage(target.getImage());
 
-			for(int i = 0; i < 9; i++)
+			for(int i = 0; i < 16; i++)
 			{
 				button[i].setSelected(false);
 			}
 
-			for(int i = 0; i < 9; i++)
+			for(int i = 0; i < 16; i++)
 			{
 				image[i].reRandomize();
 			}
 
-			for(int i = 0; i < 9; i++)
+			for(int i = 0; i < 16; i++)
 			{
 				button[i].setGraphic(new ImageView(image[i].getImage()));
 				button[i].setDisable(true);
@@ -183,7 +183,7 @@ public class MultiEasyGame extends Application
 			submit.setDisable(true);
 
 			Timeline timeline = new Timeline(new KeyFrame(
-					Duration.millis(3000),
+					Duration.millis(4000),
 					ae -> cover()));
 			timeline.play();
 		}
@@ -231,39 +231,40 @@ public class MultiEasyGame extends Application
 		gridPane.setHgap(5);
 		gridPane.setVgap(5);
 		gridPane.add(lscore, 0, 0);
-		gridPane.add(new Label("Image: "), 2, 0);
-		gridPane.add(itarget, 2, 1);
-		gridPane.add(submit, 2, 5);
-		gridPane.add(gameSet, 0, 5);
-		gridPane.addRow(6,tally);
+		gridPane.add(new Label("Image: "), 3, 0);
+		gridPane.add(itarget, 3, 1);
+		gridPane.add(submit, 3, 6);
+		gridPane.add(gameSet, 0, 6);
+		gridPane.addRow(7,tally);
 		GridPane.setColumnSpan(tally, GridPane.REMAINING);
 		
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			image[i] = new RandImage();
 		}
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			button[i] = new RadioButton();
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
 		}
+		submit.setDisable(true);
+		
 		int count = 0;
-		for(int i = 2; i < 5; i++)
+		for(int i = 2; i < 6; i++)
 		{
-			for(int j = 0; j < 3; j++)
+			for(int j = 0; j < 4; j++)
 			{
 				gridPane.add(button[count], j, i);
 				count++;
 			}
 		}
-		submit.setDisable(true);
 
 		gridPane.setAlignment(Pos.CENTER);
 		submit.setAlignment(Pos.CENTER);
 		gameSet.setAlignment(Pos.CENTER);
 		tally.setAlignment(Pos.CENTER);
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			button[i].setAlignment(Pos.BOTTOM_RIGHT);
 		}
@@ -280,7 +281,7 @@ public class MultiEasyGame extends Application
 		newPrim.show();
 		
 		Timeline timeline = new Timeline(new KeyFrame(
-		        Duration.millis(3000),
+		        Duration.millis(4000),
 		        ae -> cover()));
 		timeline.play();
 	}
@@ -337,11 +338,11 @@ public class MultiEasyGame extends Application
 		target.reRandomize();
 		itarget.setImage(target.getImage());
 		
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			image[i].reRandomize();
 		}
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			button[i].setGraphic(new ImageView(image[i].getImage()));
 			button[i].setDisable(true);
@@ -349,14 +350,14 @@ public class MultiEasyGame extends Application
 		submit.setDisable(true);
 		
 		Timeline timeline = new Timeline(new KeyFrame(
-		        Duration.millis(3000),
+		        Duration.millis(4000),
 		        ae -> cover()));
 		timeline.play();
 	}
 	
 	private void cover()
 	{
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			button[i].setGraphic(new ImageView(cover));
 			button[i].setDisable(false);
